@@ -1,0 +1,487 @@
+   <!-- Hamburgar -->
+    <div id="mobileMenu" class="mobile-menu">
+        <div class="menu-header">
+            <span>Menu</span>
+            <i class="bi bi-x fs-4" onclick="toggleMenu()"></i>
+        </div>
+
+        <!-- Search and Profile -->
+        <div class="mobile-header-search">
+
+            <div class="menu-item">
+                <i class="bi bi-person-circle d-flex pro"> Profile</i>
+            </div>
+
+            <select class="form-select" id="citySelect" onchange="setCityCookie()">
+                <option value="">Select City</option>
+                <?php
+                if ($citiesResult->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<option value='" . $row['id'] . "'>" . $row['city_name'] . $row['state'] . "</option>";
+                    }
+                }
+                ?>
+            </select>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Large screen header -->
+<div class="header-container px-3">
+    <div class="d-none d-md-flex align-items-center justify-content-between">
+        <!-- Logo -->
+        <div style="width:10%; margin-right: 15px;">
+            <a href="/car-express/public/home">
+                <img src="../assets/images/logo/logo.PNG" alt="Logo" class="me-2">
+            </a>
+        </div>
+
+        <!-- Select City -->
+        <div style="width:20%;">
+            <select class="form-select" id="citySelect" style="outline:0;">
+                <option value="">Select City</option>
+                <?php
+                if ($citiesResult->num_rows > 0) {
+                    while ($row = $citiesResult->fetch_assoc()) {
+                        echo "<option value='" . strtolower($row['city_name']) . "'>" . capitalize_first($row['city_name']) . "</option>";
+                    }
+                }
+                ?>
+            </select>
+        </div>
+
+        <!-- Search bar -->
+        <div class="text-center" style="width:30%;">
+            <form class="d-flex align-items-center">
+                <input type="text" id="searchInput" placeholder="Search here..." class="search-input" required>
+                <button type="button" class="input-group-txt search-button" id="searchButton">
+                    <i class="bi bi-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="d-flex align-items-center gap-3">
+            <!-- Select language -->
+            <div>
+                <select class="form-select" id="citySelect" style="outline:0; border:0;">
+                    <?php
+                    $selectedLanguage = "English";
+
+                    if ($languageResult->num_rows > 0) {
+                        while ($row = $languageResult->fetch_assoc()) {
+                            $languageId = htmlspecialchars($row['language_id']);
+                            $languageName = htmlspecialchars($row['language_name']);
+
+                            // Check if the language is "English" and mark it as selected
+                            $selected = ($languageName === $selectedLanguage) ? "selected" : "";
+
+                            echo "<option style='border:0;' value='$languageId' $selected>$languageName</option>";
+                        }
+                    }
+                    ?>
+                </select>
+            </div>
+
+            <!-- Wishlist -->
+            <div>
+                <a href="/car-express/public/wishlist" class="mx-2 mt-1 text-dark"><i class="bi bi-heart"></i></a>
+            </div>
+
+            <!-- Chat -->
+            <div>
+                <a href="/car-express/public/chat" class="mx-2 text-dark"><i class="bi bi-chat"></i></a>
+            </div>
+
+            <!-- Profile -->
+            <div class="dropdown">
+                <button class="dropdown-toggle bg-transparent" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border:none;">
+                    <a class="rounded-circle bg-danger text-white"
+                        style="padding: 9px 12px 9px 15px; text-decoration:none;">
+                        S
+                    </a>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+            </div>
+
+            <button class="sell-btn">+ SELL</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Mobile header -->
+<div class="d-flex d-md-none align-items-center justify-content-between">
+    <!-- Mobile Toggle -->
+    <i class="bi bi-list fs-4 toggle-icon" onclick="toggleMenu()"></i>
+
+    <!-- Logo -->
+    <div style="width:20%;">
+        <img src="../assets/images/logo/logo.PNG" alt="Logo">
+    </div>
+
+    <!-- Icons -->
+    <div class="d-flex align-items-center gap-2">
+        <a href="#" class="text-dark"><i class="bi bi-heart"></i></a>
+        <a href="#" class="text-dark"><i class="bi bi-chat"></i></a>
+        <a href="#" class="text-dark"><i class="bi bi-bell"></i></a>
+
+        <!-- Profile -->
+        <div class="dropdown">
+            <a class="btn rounded-circle bg-danger text-white d-flex justify-content-center align-items-center"
+                style="width: 30px; height: 30px;" href="#" role="button" data-bs-toggle="dropdown">
+                S
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:root {
+    --theme-bg-color: white; /* Define background color */
+    --theme-box-color: black; 
+}
+
+/* Header Styling */
+.header-container {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: var(--theme-bg-color);
+    border-bottom: 2px solid black;
+    padding: 20px;
+    /* height: 70px; */
+}
+
+.sellMenu {
+    position: relative;
+    cursor: pointer;
+}
+
+.header-container img {
+    width: 100%;
+    height: auto;
+    /* margin-right: 16px; */
+}
+
+.sell-btn {
+    border: 5px solid black;
+    border-color: green;
+    border-radius: 15px;
+    padding: 5px 10px;
+}
+
+.sell-btn:hover {
+    opacity: 0.8;
+}
+
+
+
+.rounded-border {
+    border: 2px solid #ddd;
+    border-radius: 50%;
+    padding: 8px;
+}
+
+.bi-person::before {
+    content: "\f4e1";
+    margin-right: 20px;
+}
+
+.form-select {
+    width: 100px;
+}
+
+.navbar-container {
+    margin-top: 75px;
+    background-color: #ffffff;
+    padding: 0 1rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.nav-link {
+    color: #333;
+    text-decoration: none;
+    padding: 5px 15px;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: black;
+}
+
+.search-input {
+    /* width: 60%; */
+    padding: .375rem 2.25rem .375rem .75rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: 0;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    /* display: flex; */
+    /* box-shadow: 12px 16px 19px 5px rgba(0, 0, 0, .1); */
+}
+
+.icon-nav-bg i {
+    padding: 6px;
+}
+.icon-nav-bg i:hover {
+    background-color: #0a78cd;
+    border-radius: 25%;
+}
+
+.input-group-txt {
+    padding: 10px;
+    border-radius: 0;
+    border: 0;
+    font-size: 16px;
+    cursor: pointer;
+    color: #0a78cd !important;
+    transition: color .3s ease;
+}
+
+.voice-search-icon {
+    /* background: rgba(45, 119, 198, .37); */
+    position: absolute;
+    margin-left: 351px;
+    /* background-color: #fff; */
+    background: none;
+    height: 38px;
+}
+
+.search-button {
+    /* width: 50%; */
+    border : 1px solid #ccc;
+    border-left: 0;
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    padding: .375rem .75rem .375rem .75rem;
+    display: flex;
+    justify-content: center;
+    
+    /* position: absolute; */
+    /* margin-left: 420px; */
+    /* background-color: #fff; */
+    /* background: none;
+    border-left: 2px solid #d3d3d3;
+    height: 38px; */
+}
+
+/* Mobile Toggle Menu */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    height: 100%;
+    width: 250px;
+    background-color: #f8f9fa;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    z-index: 1040;
+}
+
+.mobile-menu.active {
+    left: 0;
+}
+
+.pro {
+    border-bottom: 0;
+}
+
+.bi-person-circle::before {
+    margin-top: 5px;
+    margin-right: 10px;
+}
+
+.mobile-menu .menu-header {
+    padding: 15px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mobile-menu .menu-item {
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.mobile-menu .menu-item i {
+    margin-right: 10px;
+}
+
+
+@media (max-width: 768px) {
+    .desktop-menu {
+        display: none;
+    }
+
+    .toggle-icon {
+        display: inline-block;
+    }
+
+    .mobile-header-search {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 15px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .mobile-header-search select {
+        flex: 1;
+    }
+
+    .mobile-header-search input {
+        flex: 3;
+    }
+}
+
+@media (min-width: 769px) {
+    .toggle-icon {
+        display: none;
+    }
+}
+
+
+.search-icon {
+    position: absolute;
+    margin-left: 410px;
+    /* background-color: #fff; */
+    background: none;
+    border-left: 2px solid #d3d3d3;
+    height: 35px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Responsive Styles */
+.header-container {
+    padding: 10px;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.search-input {
+    width: 100%;
+    padding: 5px;
+}
+
+.sell-btn {
+    background: #ff5722;
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        padding: 5px;
+    }
+    .search-input {
+        width: 80%;
+    }
+}
