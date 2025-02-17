@@ -485,3 +485,71 @@
         width: 80%;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Select city -->
+
+<!-- Select City
+                <div style="width:20%;" class="d-none d-md-block">
+                    <?php
+                    // Get the current selected city from the URL
+                    $selectedCity = isset($_GET['location']) ? htmlspecialchars($_GET['location']) : "";
+                    ?>
+                    <select class="form-select" id="citySelect" style="outline:0;">
+                        <option value="">Select City</option>
+                        <?php
+                        if ($citiesResult->num_rows > 0) {
+                            while ($row = $citiesResult->fetch_assoc()) {
+                                $cityName = htmlspecialchars($row['city_name']);
+                                $selected = ($cityName == $selectedCity) ? "selected" : ""; // Mark selected city
+                                echo "<option value='$cityName' $selected>" . ucwords($cityName) . "</option>";
+                            }
+                        }
+                        ?>
+                    </select>
+
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function() {
+                            document.getElementById("citySelect").addEventListener("change", function() {
+                                let city = this.value; // Get selected city value
+                                if (!city) return; // If no city is selected, do nothing
+
+                                let currentUrl = window.location.href;
+                                let newUrl;
+
+                                if (currentUrl.includes("/products")) {
+                                    // If already on /products, update the location parameter
+                                    let url = new URL(currentUrl);
+                                    url.searchParams.set("location", city);
+                                    newUrl = url.toString();
+                                } else {
+                                    // If not on /products, redirect to /products with the location parameter
+                                    newUrl = "/car-express/public/products?location=" + encodeURIComponent(city);
+                                }
+
+                                window.location.href = newUrl; // Reload the page with the updated URL
+                            });
+                        });
+                    </script>
+
+                </div> -->

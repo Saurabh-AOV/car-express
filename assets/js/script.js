@@ -43,3 +43,15 @@ document.addEventListener("DOMContentLoaded", function() {
         window.history.pushState({}, "", url);
     });
 });
+
+
+// Toast for the product card favourite icon
+// Get the heart icon and toast elements
+const heartIcon = document.getElementById('heartIcon');
+const toastElement = document.getElementById('liveToast');
+const toast = new bootstrap.Toast(toastElement);  // Create a Toast instance
+
+// Add event listener to the heart icon
+heartIcon.addEventListener('click', function() {
+  toast.show();  // Show toast when the heart icon is clicked
+});
