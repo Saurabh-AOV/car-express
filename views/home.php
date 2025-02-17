@@ -11,7 +11,7 @@
 
     <div class="container">
         <?php 
-        $query = "SELECT product_id, product_image, price, created_at, product_name AS title, location AS address 
+        $query = "SELECT product_id, product_image, year_of_registration, mileage, price, created_at, product_name AS title, location_city AS address 
         FROM products 
         ORDER BY created_at DESC";
         require_once __DIR__ . '/sections/productCard.php'; ?>

@@ -1,15 +1,20 @@
 <?php
 // Fetch the location information from the database
-$query = "SELECT * FROM city";
-$result = $conn->query($query);
+$cityResult = $conn->query("SELECT * FROM location_city LIMIT 6");
+$stateResult = $conn->query("SELECT * FROM location_state LIMIT 6");
 
 $cities = [];
 $states = [];
 
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
+if ($stateResult->num_rows > 0) {
+    while ($row = $stateResult->fetch_assoc()) {
+        $states[] = $row["state_name"];
+    }
+}
+
+if ($cityResult->num_rows > 0) {
+    while ($row = $cityResult->fetch_assoc()) {
         $cities[] = $row['city_name'];  // Store city names
-        $states[] = $row['state'];      // Store states
     }
 }
 ?>

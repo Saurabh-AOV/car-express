@@ -1,9 +1,26 @@
+<?php 
+$productId = 30;
+// Fetch the product details from the database
+if ($productId) {
+    // Fetch the product data
+    $sql = "SELECT * FROM products WHERE product_id = $productId";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $product = $result->fetch_assoc();
+    } else {
+        echo "Product not found.";
+    }
+    $conn->close();
+}
+?>
+
 <div class="container-fluid mt-4">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/car-express/public/home" style="text-decoration:none;">Home</a></li>
             <li class="breadcrumb-item"><a href="#" style="text-decoration:none;">Cars</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Data</li>
+            <li class="breadcrumb-item active" aria-current="page"><?php echo $product['product_name'] ?></li>
         </ol>
     </nav>
 
@@ -13,6 +30,7 @@
             <div class="product-detail-left">
                 <div class="product-img-section">
                     <?php
+                    $images = $product['product_name'];
                     require_once __DIR__ . "/sections/product-detail-content/largeScreenProductImage.php";
                     ?>
                 </div>
@@ -40,7 +58,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h5 class="card-title"> ₹ 499</h5>
+                                <h5 class="card-title"> ₹ <?php echo $product['price'] ?></h5>
                             </div>
                             <div>
                                 <button class="btn btn-sm mb-2" id="shareBtn"><i class="bi bi-share"></i></button>
@@ -64,7 +82,7 @@
                                 <button class="btn  btn-sm mb-2"><i class="bi bi-heart"></i></button>
                             </div>
                         </div>
-                        <p>This is the tile of the product</p>
+                        <p><?php echo $product['product_name'] ?></p>
 
                         <div class="d-flex justify-content-between align-items-center">
                             <h6 class="card-subtitle mb-0 text-muted">Listed on: Feb 11, 2025</h6>
@@ -91,7 +109,7 @@
                 <!-- Posted in -->
                 <div class="product-details  card p-3 mb-2">
                     <h4 class=" mb-3">Posted in</h4>
-                    <div>Here print the address of the product listing only</div>
+                    <div>State : <?php echo $product['location_state'] ?> City : <?php echo $product['location_city'] ?></div>
                 </div>
 
                 <!-- Map -->

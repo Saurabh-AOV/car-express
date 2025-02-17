@@ -3,7 +3,7 @@
 require_once __DIR__ . "/../app/helpers/FormatingTextHelper.php";
 
 // Fetch city data
-$cityQuery = "SELECT id, city_name FROM city";
+$cityQuery = "SELECT city_id, city_name FROM location_city";
 $citiesResult = $conn->query($cityQuery);
 
 // Fetch language data
@@ -210,22 +210,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             if (!selectedCity) return;
 
                             let currentUrl = window.location.href;
-                                let newUrl;
+                            let newUrl;
 
-                                if (currentUrl.includes("/products")) {
-                                    // If already on /products, update the location parameter
-                                    let url = new URL(currentUrl);
-                                    url.searchParams.set("location", selectedCity);
-                                    newUrl = url.toString();
-                                } else {
-                                    // If not on /products, redirect to /products with the location parameter
-                                    newUrl = "/car-express/public/products?location=" + encodeURIComponent(selectedCity);
-                                }
+                            if (currentUrl.includes("/products")) {
+                                // If already on /products, update the location parameter
+                                let url = new URL(currentUrl);
+                                url.searchParams.set("location", selectedCity);
+                                newUrl = url.toString();
+                            } else {
+                                // If not on /products, redirect to /products with the location parameter
+                                newUrl = "/car-express/public/products?location=" + encodeURIComponent(selectedCity);
+                            }
 
-                                window.location.href = newUrl; // Reload the page with the updated URL
-                                
+                            window.location.href = newUrl; // Reload the page with the updated URL
 
-                            
+
+
                         });
                     });
                 </script>
@@ -311,30 +311,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <div class="modal-content">
                                     <div class="modal-body p-0">
                                         <div class="d-flex">
-
-                                            <!-- Left Panel Content -->
-                                            <div class="col-lg-5 left-panel d-flex flex-column justify-content-center left-side-image"
-                                                style="background-image: url(./img\ bg.svg);">
-
-                                                <div class="mb-5 d-flex">
-                                                    <span class=""> </span>
-                                                    <p class="mb-0">Discover, compare, shortlist your preferred schools, and much more.</p>
-                                                </div>
-                                                <div class="mb-5 d-flex">
-                                                    <span class=""></span>
-                                                    <p class="mb-0">Apply to multiple schools using a common application form.</p>
-                                                </div>
-                                                <div class="mb-5 d-flex">
-                                                    <span class=""></span>
-                                                    <p class="mb-0">Stay up to date with admissions, fee structures, facilities, and more.
-                                                    </p>
-                                                </div>
-                                                <div class="mb-5 d-flex">
-                                                    <span class=""></span>
-                                                    <p class="mb-0">Lakhs of parents trust us for our industry-leading free counseling
-                                                        services.</p>
-                                                </div>
-                                            </div>
 
                                             <!-- Right Panel Content (Login Form) -->
                                             <div class="col-lg-7 d-flex align-items-center justify-content-center">

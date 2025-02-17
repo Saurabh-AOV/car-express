@@ -1,11 +1,21 @@
 <?php
 
+// 1️⃣ **Fetch all city names in advance**
+$cityQuery = "SELECT city_id, city_name FROM location_city";
+$cityResult = $conn->query($cityQuery);
+
+$cityNames = [];
+while ($cityRow = $cityResult->fetch_assoc()) {
+    $cityNames[$cityRow['city_id']] = ucwords(htmlspecialchars($cityRow['city_name']));
+}
+
+
 // Fetch Products with a query
 $sql = isset($query) ? $query : "SELECT product_id, product_image, price, created_at, product_name AS title, location AS address 
         FROM products 
         ORDER BY created_at DESC";
 
-$result = $conn->query($query);
+$result = $conn->query($sql);
 ?>
 
 
@@ -42,10 +52,15 @@ $result = $conn->query($query);
                     $timeAgo = "$years year" . ($years > 1 ? 's' : '') . " ago";
                 }
 
+                // 3️⃣ **Get City Name from preloaded array**
+                $city_id = (int) $row['address'];
+                $city_name = isset($cityNames[$city_id]) ? $cityNames[$city_id] : "Unknown City";
+
+
                 ?>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
 
-                    <a href="/car-express/public/product-detail/<?php echo $row['id']; ?>" class="text-dark" style="text-decoration:none;">
+                    <a href="/car-express/public/product-detail/<?php echo $row['product_id']; ?>" class="text-dark" style="text-decoration:none;">
                         <div class="card shadow-sm p-1">
                             <!-- Favorite Icon -->
                             <div class="favorite">
@@ -75,14 +90,13 @@ $result = $conn->query($query);
 
                                 <!-- Year & KM -->
                                 <p class="text-muted" style="margin-bottom:2px;">
-                                    <?php echo isset($row['year']) ? "• " . $row['year'] : "";  ?>
-                                    <?php echo isset($row['km']) ? "• " . number_format($row['km']) : "" ?>
+                                    <?php echo isset($row['year_of_registration']) ? "• " . $row['year_of_registration'] : "";  ?>
+                                    <?php echo isset($row['mileage']) ? "• " . number_format($row['mileage']) . " Mileage" : "" ?>
                                 </p>
 
                                 <div class="d-flex justify-content-between">
-                                    <!-- Address -->
-                                    <p class="text-muted small mb-0"><?php echo ucwords(htmlspecialchars($row['address'])); ?></p>
-
+                                    <!-- City name -->
+                                    <p class="text-muted small mb-0"><?php echo $city_name; ?></p>
                                     <!-- Listing Date -->
                                     <p class="listed mb-0"><?php echo $timeAgo; ?></p>
                                 </div>
