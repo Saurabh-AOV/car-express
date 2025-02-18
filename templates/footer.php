@@ -86,7 +86,7 @@ if ($cityResult->num_rows > 0) {
                     <h5>Car Express</h5>
                     <ul class="list-unstyled">
                         <li><a href="#" class="text-white">About Us</a></li>
-                        <li><a href="#" class="text-white">Sell Your Car</a></li>
+                        <li><a href="/car-express/public/sell" class="text-white">Sell Your Car</a></li>
                         <li><a href="#" class="text-white">Buy Cars</a></li>
                         <li><a href="#" class="text-white">Finance</a></li>
                         <li><a href="#" class="text-white">Contact</a></li>

@@ -1,17 +1,22 @@
-<?php 
-$productId = 30;
+<?php
+$productId = $_GET['listing'];
+$product = null; // Initialize product variable
+
 // Fetch the product details from the database
 if ($productId) {
     // Fetch the product data
-    $sql = "SELECT * FROM products WHERE product_id = $productId";
-    $result = $conn->query($sql);
+    $sql = "SELECT * FROM products WHERE product_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $productId);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $product = $result->fetch_assoc();
     } else {
         echo "Product not found.";
     }
-    $conn->close();
+    $stmt->close(); // Close statement but keep DB connection open
 }
 ?>
 
@@ -30,7 +35,7 @@ if ($productId) {
             <div class="product-detail-left">
                 <div class="product-img-section">
                     <?php
-                    $images = $product['product_name'];
+                    $imagesString = $product['product_image'];
                     require_once __DIR__ . "/sections/product-detail-content/largeScreenProductImage.php";
                     ?>
                 </div>
@@ -38,7 +43,7 @@ if ($productId) {
                 <div class="product-details my-1 card px-3 py-3">
                     <h2 class=" mb-3">Description</h2>
                     <div>
-                        I am the description what ever you type fetch here
+                        <?php echo $product["description"] ?>
                     </div>
                 </div>
 
@@ -64,17 +69,19 @@ if ($productId) {
                                 <button class="btn btn-sm mb-2" id="shareBtn"><i class="bi bi-share"></i></button>
 
                                 <div id="shareOptions" class="mt-2" style="display: none;">
-                                    <a href="https://api.whatsapp.com/send?text=Check%20this%20out!" class="btn btn-success btn-sm me-2" target="_blank">
+                                    <a href="https://api.whatsapp.com/send?text=Check%20this%20out!"
+                                        class="btn btn-success btn-sm me-2" target="_blank">
                                         <i class="bi bi-whatsapp"></i> WhatsApp
                                     </a>
-                                    <a href="mailto:?subject=Check%20this%20out&body=Here%20is%20something%20interesting!" class="btn btn-danger btn-sm">
+                                    <a href="mailto:?subject=Check%20this%20out&body=Here%20is%20something%20interesting!"
+                                        class="btn btn-danger btn-sm">
                                         <i class="bi bi-envelope"></i> Email
                                     </a>
                                 </div>
 
                                 <script>
-                                    $(document).ready(function() {
-                                        $("#shareBtn").click(function() {
+                                    $(document).ready(function () {
+                                        $("#shareBtn").click(function () {
                                             $("#shareOptions").toggle(); // Show/Hide buttons
                                         });
                                     });
@@ -97,7 +104,8 @@ if ($productId) {
                 <div class="product-details  card p-3 mb-2">
                     <div class="w-100 d-flex justify-content-between align-items-center">
                         <div class="d-flex gap-2 align-items-center">
-                            <img src="../image.jpg" style="height: 4rem; width:4rem; border-radius: 50%;" alt="user profile" />
+                            <img src="../image.jpg" style="height: 4rem; width:4rem; border-radius: 50%;"
+                                alt="user profile" />
                             <h5 class="mb-0">User Profilename</h5>
                         </div>
                         <i class="bi bi-arrow-right-short" style="font-size:35px;"></i>
@@ -108,22 +116,42 @@ if ($productId) {
 
                 <!-- Posted in -->
                 <div class="product-details  card p-3 mb-2">
-                    <h4 class=" mb-3">Posted in</h4>
-                    <div>State : <?php echo $product['location_state'] ?> City : <?php echo $product['location_city'] ?></div>
+                    <h4 class="mb-3">Posted in</h4>
+                    <div>
+                            <?php
+                            // Ensure location_state and location_city exist
+                            $state_id = isset($product['location_state']) ? (int) $product['location_state'] : 0;
+                            $city_id = isset($product['location_city']) ? (int) $product['location_city'] : 0;
+
+                            // Function to fetch names from database safely
+                            function getLocationName($conn, $table, $column, $id_column, $id)
+                            {
+                                if ($id === 0) return "Not available"; // Handle missing IDs
+                                
+                                $stmt = $conn->prepare("SELECT $column FROM $table WHERE $id_column = ?");
+                                $stmt->bind_param("i", $id);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+                                $row = $result->fetch_assoc();
+                                return $row ? htmlspecialchars($row[$column]) : "Not found";
+                            }
+
+                            // Fetch state and city names
+                            $state_name = getLocationName($conn, "location_state", "state_name", "state_id", $state_id);
+                            $city_name = getLocationName($conn, "location_city", "city_name", "city_id", $city_id);
+                            ?>
+
+                            <p><span><strong>State:</strong> <?php echo $state_name; ?></span> <span><strong>City:</strong> <?php echo $city_name; ?></span></p>
+                        </div>
+
                 </div>
 
                 <!-- Map -->
                 <div class="product-details  card p-3 mb-2">
                     <!-- Embed Google Map inside the div -->
-                    <iframe
-                        width="100%"
-                        height="300"
+                    <iframe width="100%" height="300"
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.012745268376!2d-122.08424998468224!3d37.42199977982513!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fbb2d6a0a0b33%3A0x38c8e6c8de7271b!2sGoogleplex!5e0!3m2!1sen!2sus!4v1676110503341!5m2!1sen!2sus"
-                        frameborder="0"
-                        style="border:0;"
-                        allowfullscreen=""
-                        aria-hidden="false"
-                        tabindex="0">
+                        frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0">
                     </iframe>
                 </div>
             </div>

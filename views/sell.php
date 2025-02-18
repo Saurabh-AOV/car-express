@@ -32,10 +32,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $errors[] = "$fileName - Only JPG files are allowed.";
                 continue;
             }
-            if ($fileSize < 100 * 1024 || $fileSize > 500 * 1024) {
-                $errors[] = "$fileName - File size must be between 100KB and 500KB.";
-                continue;
-            }
+            // if ($fileSize < 100 * 1024 || $fileSize > 500 * 1024) {
+            //     $errors[] = "$fileName - File size must be between 100KB and 500KB.";
+            //     continue;
+            // }
 
             if (move_uploaded_file($files["tmp_name"][$i], $filePath)) {
                 $uploadedFiles[] = $filePath;
@@ -43,6 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $errors[] = "$fileName - Upload failed.";
             }
         }
+
+        $_SESSION ["uploadedFiles"] = $uploadedFiles;
     } else if (isset($_POST['submit_product'])) {
         // Get and sanitize input values
         $manufacturer = isset($_POST['manufacturer']) ? $_POST['manufacturer'] : null;
@@ -61,7 +63,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $tags = isset($_POST['tags']) ? $_POST['tags'] : null;
         $title = isset($_POST['title']) ? $_POST['title'] : null;
         $description = isset($_POST['description']) ? $_POST['description'] : null;
-        $images = implode(",", $uploadedFiles);
+        $images = isset($_SESSION['uploadedFiles']) && !empty($_SESSION['uploadedFiles']) 
+          ? implode(",", $_SESSION['uploadedFiles']) 
+          : null;
+
 
         // Here you can now use these variables in your SQL INSERT query
 
@@ -73,16 +78,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ($userIdForTesting, '$title', $price,'$description', '$condition', '$images',  $year_of_registration,  '$fuel_type',  '$transmission', $mileage, $owners , 
             '$tags', $manufacturer, $model, $variant, $city, $state,  $pincode)";
 
-        if ($conn->query($sql) === TRUE) {
-            
-            // User found, store session data
-            // $check_result->fetch_assoc();
-            echo "<script>alert('Product uploaded successfully!');</script>";
-            // Set session variable
-            // $_SESSION['user_id'] = $user['phone_number'];
+        if ($conn->query($sql) === TRUE) {            
+            // Clear session images after successful upload
+            // unset($_SESSION['uploadedFiles']);
 
-            // After inserting, redirect to dashboard.php
-            header("Location: dashboard.php");
+            // Alert message
+            echo "<script>alert('Product uploaded successfully!');</script>";
+
+            exit;
         } else {
             echo "<script type='text/javascript'>
                 alert('Error: " . $sql . " - " . $conn->error . "');

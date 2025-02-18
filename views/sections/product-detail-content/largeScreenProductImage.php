@@ -1,10 +1,6 @@
 <?php 
-$images = [
-    "../image.jpg",
-    "../image.jpg",
-    "../image.jpg",
-    "../image.jpg",
-]
+// Convert string to array
+$images = array_map('trim', explode(",", $imagesString));
 ?>
 
 <div class="container-fluid">
@@ -12,8 +8,8 @@ $images = [
         <!-- Left Button -->
         <button class="prev" onclick="changeImage(-1)">❮</button>
 
-        <!-- Main Large Image -->
-        <img id="mainImage" src="../image.jpg" class="main-image">
+        <!-- Main Large Image (Set first image dynamically) -->
+        <img id="mainImage" src="<?php echo !empty($images) ? $images[0] : '../default.jpg'; ?>" class="main-image">
 
         <!-- Right Button -->
         <button class="next" onclick="changeImage(1)">❯</button>
@@ -21,8 +17,8 @@ $images = [
 
     <!-- Thumbnail Images -->
     <div class="mt-3 d-flex justify-content-between gap-2">
-        <?php foreach ($images as $index => $image): ?>
-            <img src="../image.jpg" class="thumbnail <?php echo $index === 0 ? 'active' : ''; ?>" onclick="setMainImage('<?php echo $image; ?>', this)">
+    <?php foreach ($images as $index => $image): ?>
+            <img src="<?php echo $image; ?>" class="thumbnail <?php echo $index === 0 ? 'active' : ''; ?>" onclick="setMainImage('<?php echo $image; ?>', this)">
         <?php endforeach; ?>
     </div>
 </div>

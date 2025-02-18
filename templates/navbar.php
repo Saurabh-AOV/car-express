@@ -41,39 +41,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $phone = $_POST['phone'];
         $otp = rand(100000, 999999);
         $_SESSION['otp'] = $otp;
+
+
         $_SESSION['phone'] = $phone;
 
         $api_url = "https://www.fast2sms.com/dev/bulkV2?authorization=$api_key&route=otp&variables_values=$otp&flash=0&numbers=$phone";
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $api_url);
+        $ch = curl_init($api_url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $response = curl_exec($ch);
-
-        if (curl_errno($ch)) {
-            $error_msg = curl_error($ch);
-            echo "cURL Error: $error_msg";
-            curl_close($ch);
-            exit;
-        }
-
-        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        // curl_setopt($ch, CURLOPT_URL, $api_url);
+        curl_exec($ch);
         curl_close($ch);
+        
+echo json_encode(["status" => "error","message"=>"OTP sent verified"]);
+        // $response = curl_exec($ch);
 
-        if ($http_status === 200) {
-            echo "OTP sent successfully.";
-        } else {
-            echo "Failed to send OTP.";
-        }
-        exit;
+        // if (curl_errno($ch)) {
+        //     $error_msg = curl_error($ch);
+        //     echo "cURL Error: $error_msg";
+        //     curl_close($ch);
+        //     exit;
+        // }
+
+        // $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        // curl_close($ch);
+
+        // if ($http_status === 200) {
+        //     echo "OTP sent successfully.";
+        //     $testingOTP = $_SESSION['otp'];
+        //     echo "<script>console.log($testingOTP)</script>";
+        // } else {
+        //     echo "Failed to send OTP.";
+        // }
+        // exit;
     }
 
     if (isset($_POST['verify_otp'])) {
         $entered_otp = $_POST['otp'];
-        if ($_SESSION['otp'] == $entered_otp) {
+        if (isset($_SESSION['otp']) && $_SESSION['otp'] == $entered_otp) {
+            echo "<script>console.log($testingOTP)</script>";
             echo 'success';
         } else {
+            echo "<script>console.log($testingOTP)</script>";
             echo 'failure';
         }
         exit;
@@ -119,6 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
 
 
 <nav class="navbar navbar-expand-md navbar-light bg-light px-3">
@@ -310,183 +320,209 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-body p-0">
-                                        <div class="d-flex">
 
-                                            <!-- Right Panel Content (Login Form) -->
-                                            <div class="col-lg-7 d-flex align-items-center justify-content-center">
-                                                <!-- Close Button positioned at top-right -->
-                                                <button type="button" class="btn-close position-absolute top-0 end-0 m-3"
-                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                <div class=" p-4 " style="width: 400px;">
 
-                                                    <h4 class="text-center">Login to continue</h4>
+                                        <!-- Right Panel Content (Login Form) -->
+                                        <div class="">
+                                            <!-- Close Button positioned at top-right -->
+                                            <button type="button" class="btn-close position-absolute top-0 end-0 m-3"
+                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <div class=" p-4 ">
 
-                                                    <div id="mobile-login">
-                                                        <form method="POST">
-                                                            <div class="my-3 gap-2 d-flex">
-                                                                <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter Phone Number" required>
-                                                            </div>
-                                                            <button type="button" id="sendOtpBtn" class="btn btn-primary mt-2">Send OTP</button>
+                                                <h4 class="text-center">Login to continue</h4>
 
-                                                            <div id="otpSection" class="my-3" style="display: none;">
-                                                                <label for="otp" class="form-label">Enter the OTP you received on your mobile phone:</label>
-                                                                <div class="d-flex gap-2">
-                                                                    <input type="text" class="form-control" id="otp" aria-describedby="otpHelp" placeholder="Enter OTP">
-                                                                    <button type="button" id="verifyOtpBtn" class="btn btn-success">Verify OTP</button>
-                                                                </div>
-                                                            </div>
-                                                            <button type="submit" id="loginUser" name="submit_user" class="mt-3 btn btn-success w-100" disabled>Login</button>
-                                                        </form>
-
-                                                        <div class="line-with-text">
-                                                            <span>OR</span>
+                                                <div id="mobile-login">
+                                                    <form method="POST">
+                                                        <div class="my-3 gap-2 d-flex">
+                                                            <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter Phone Number" required>
                                                         </div>
+                                                        <button type="button" id="sendOtpBtn" class="btn btn-primary mt-2">Send OTP</button>
 
-                                                        <div onclick="showGoogleLogin()" class="d-flex justify-content-center gap-3 p-3 align-items-center"
-                                                            style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
-                                                            <div>
-                                                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px"
-                                                                    viewBox="0 0 48 48" class="abcRioButtonSvg">
-                                                                    <g>
-                                                                        <path fill="#EA4335"
-                                                                            d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z">
-                                                                        </path>
-                                                                        <path fill="#4285F4"
-                                                                            d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z">
-                                                                        </path>
-                                                                        <path fill="#FBBC05"
-                                                                            d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z">
-                                                                        </path>
-                                                                        <path fill="#34A853"
-                                                                            d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z">
-                                                                        </path>
-                                                                        <path fill="none" d="M0 0h48v48H0z"></path>
-                                                                    </g>
-
-                                                                </svg>
+                                                        <div id="otpSection" class="my-3" style="display: none;">
+                                                            <label for="otp" class="form-label">Enter the OTP you received on your mobile phone:</label>
+                                                            <div class="d-flex gap-2">
+                                                                <input type="text" class="form-control" id="otp" aria-describedby="otpHelp" placeholder="Enter OTP">
+                                                                <button type="button" id="verifyOtpBtn" class="btn btn-success">Verify OTP</button>
                                                             </div>
-                                                            <div>Login with google</div>
                                                         </div>
+                                                        <button type="submit" id="loginUser" name="submit_user" class="mt-3 btn btn-success w-100" disabled>Login</button>
+                                                    </form>
+
+                                                    <div class="line-with-text">
+                                                        <span>OR</span>
                                                     </div>
 
-                                                    <div id="google-login" style="display:none;">
-                                                        <p>Google login configuration</p>
+                                                    <div onclick="showGoogleLogin()" class="d-flex justify-content-center gap-3 p-3 align-items-center"
+                                                        style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
+                                                        <div>
+                                                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px"
+                                                                viewBox="0 0 48 48" class="abcRioButtonSvg">
+                                                                <g>
+                                                                    <path fill="#EA4335"
+                                                                        d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z">
+                                                                    </path>
+                                                                    <path fill="#4285F4"
+                                                                        d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z">
+                                                                    </path>
+                                                                    <path fill="#FBBC05"
+                                                                        d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z">
+                                                                    </path>
+                                                                    <path fill="#34A853"
+                                                                        d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z">
+                                                                    </path>
+                                                                    <path fill="none" d="M0 0h48v48H0z"></path>
+                                                                </g>
 
-                                                        <div class="line-with-text">
-                                                            <span>OR</span>
+                                                            </svg>
                                                         </div>
-
-                                                        <div onclick="showMobileLogin()" class="d-flex justify-content-center gap-3 p-3 align-items-center"
-                                                            style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
-                                                            <div>
-                                                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px"
-                                                                    viewBox="0 0 48 48" class="abcRioButtonSvg">
-                                                                    <g>
-                                                                        <path fill="#EA4335"
-                                                                            d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z">
-                                                                        </path>
-                                                                        <path fill="#4285F4"
-                                                                            d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z">
-                                                                        </path>
-                                                                        <path fill="#FBBC05"
-                                                                            d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z">
-                                                                        </path>
-                                                                        <path fill="#34A853"
-                                                                            d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z">
-                                                                        </path>
-                                                                        <path fill="none" d="M0 0h48v48H0z"></path>
-                                                                    </g>
-
-                                                                </svg>
-                                                            </div>
-                                                            <div>Login with Mobile Number</div>
-                                                        </div>
+                                                        <div>Login with google</div>
                                                     </div>
-
                                                 </div>
+
+                                                <div id="google-login">
+                                                    <p>Google login configuration</p>
+
+                                                    <div class="line-with-text">
+                                                        <span>OR</span>
+                                                    </div>
+
+                                                    <div onclick="showMobileLogin()" class="d-flex justify-content-center gap-3 p-3 align-items-center"
+                                                        style="box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">
+                                                        <div>
+                                                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px"
+                                                                viewBox="0 0 48 48" class="abcRioButtonSvg">
+                                                                <g>
+                                                                    <path fill="#EA4335"
+                                                                        d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z">
+                                                                    </path>
+                                                                    <path fill="#4285F4"
+                                                                        d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z">
+                                                                    </path>
+                                                                    <path fill="#FBBC05"
+                                                                        d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z">
+                                                                    </path>
+                                                                    <path fill="#34A853"
+                                                                        d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z">
+                                                                    </path>
+                                                                    <path fill="none" d="M0 0h48v48H0z"></path>
+                                                                </g>
+
+                                                            </svg>
+                                                        </div>
+                                                        <div>Login with Mobile Number</div>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <script>
-                            function startCountdown() {
-                                var countdown = 30; // Set the countdown start value
-
-                                // Create a function to update the button text with the countdown
-                                var countdownInterval = setInterval(function() {
-                                    $('#sendOtpBtn').text('Resend OTP (' + countdown + 's)');
-                                    countdown--;
-
-                                    // When countdown reaches 0, stop the interval and show the Resend OTP button
-                                    if (countdown < 0) {
-                                        clearInterval(countdownInterval);
-                                        $('#sendOtpBtn').text('Resend OTP');
-                                        $('#sendOtpBtn').prop('disabled', false);
-                                    }
-                                }, 1000);
-                            }
-
-                            function showMobileLogin() {
-                                $('#mobile-login').show();
-                                $('#google-login').hide();
-                            }
-
-                            function showGoogleLogin() {
-                                $('#mobile-login').hide();
-                                $('#google-login').show();
-                            }
-
-                            $(document).ready(function() {
+                            document.addEventListener("DOMContentLoaded", function() {
+                                document.getElementById("google-login").style.display = "none";
                                 let otpVerified = false;
 
-                                $('#sendOtpBtn').click(function() {
-                                    console.log("Send button clicked");
+                                function startCountdown() {
+                                    let countdown = 30;
+                                    const sendOtpBtn = document.getElementById("sendOtpBtn");
 
-                                    const phone = $('#phone').val();
+                                    sendOtpBtn.textContent = `Resend OTP (${countdown}s)`;
+                                    sendOtpBtn.disabled = true;
+
+                                    const countdownInterval = setInterval(() => {
+                                        countdown--;
+                                        sendOtpBtn.textContent = `Resend OTP (${countdown}s)`;
+
+                                        if (countdown < 0) {
+                                            clearInterval(countdownInterval);
+                                            sendOtpBtn.textContent = "Resend OTP";
+                                            sendOtpBtn.disabled = false;
+                                        }
+                                    }, 1000);
+                                }
+
+                                function showMobileLogin() {
+                                    document.getElementById("mobile-login").style.display = "block";
+                                    document.getElementById("google-login").style.display = "none";
+                                }
+
+                                function showGoogleLogin() {
+                                    document.getElementById("mobile-login").style.display = "none";
+                                    document.getElementById("google-login").style.display = "block";
+                                }
+
+                                document.getElementById("sendOtpBtn").addEventListener("click", function(event) {
+                                    event.preventDefault();
+
+                                    console.log("Send OTP button clicked");
+
+                                    const phone = document.getElementById("phone").value;
                                     if (phone) {
-                                        $.post('', {
-                                            send_otp: true,
-                                            phone: phone
-                                        }, function(response) {
-                                            alert('OTP sent to ' + phone);
-                                            $('#sendOtpBtn').prop('disabled', true);
-                                            $('#phone').prop('readonly', true);
-                                            $('#otpSection').show();
-
-                                            // Start the countdown for Resend OTP button
-                                            startCountdown();
-                                        });
+                                        fetch("", {
+                                                method: "POST",
+                                                headers: {
+                                                    "Content-Type": "application/x-www-form-urlencoded"
+                                                },
+                                                body: new URLSearchParams({
+                                                    send_otp: true,
+                                                    phone: phone
+                                                })
+                                            })
+                                            .then(response => response.text())
+                                            .then(data => {
+                                                alert("OTP sent to " + phone);
+                                                document.getElementById("sendOtpBtn").disabled = true;
+                                                document.getElementById("phone").readOnly = true;
+                                                document.getElementById("otpSection").style.display = "block";
+                                                startCountdown();
+                                            })
+                                            .catch(error => console.error("Error:", error));
                                     } else {
-                                        alert('Please enter a valid phone number.');
+                                        alert("Please enter a valid phone number.");
                                     }
                                 });
 
-                                $('#verifyOtpBtn').click(function() {
-                                    const otp = $('#otp').val();
+                                document.getElementById("verifyOtpBtn").addEventListener("click", function(event) {
+                                    event.preventDefault();
+
+                                    console.log("Verify OTP button clicked");
+
+                                    const otp = document.getElementById("otp").value;
                                     if (otp) {
-                                        $.post('', {
-                                            verify_otp: true,
-                                            otp: otp
-                                        }, function(response) {
-                                            if (response === 'success') {
-                                                alert('OTP Verified Successfully!');
-                                                otpVerified = true;
-                                                $('#sendOtpBtn').hide();
-                                                $('#otpSection').hide();
-                                                $('#phone').prop('readonly', true);
-                                                $('#loginUser').prop('disabled', false);
-                                            } else {
-                                                alert('Invalid OTP. Please try again.');
-                                            }
-                                        });
+                                        fetch("", {
+                                                method: "POST",
+                                                headers: {
+                                                    "Content-Type": "application/x-www-form-urlencoded"
+                                                },
+                                                body: new URLSearchParams({
+                                                    verify_otp: true,
+                                                    otp: otp
+                                                })
+                                            })
+                                            .then(response => response.text())
+                                            .then(data => {
+                                                if (data.trim() === "success") {
+                                                    alert("OTP Verified Successfully!");
+                                                    otpVerified = true;
+                                                    document.getElementById("sendOtpBtn").style.display = "none";
+                                                    document.getElementById("otpSection").style.display = "none";
+                                                    document.getElementById("phone").readOnly = true;
+                                                    document.getElementById("loginUser").disabled = false;
+                                                } else {
+                                                    alert("Invalid OTP. Please try again.");
+                                                }
+                                            })
+                                            .catch(error => console.error("Error:", error));
                                     } else {
-                                        alert('Please enter the OTP.');
+                                        alert("Please enter the OTP.");
                                     }
                                 });
                             });
                         </script>
+
                     </div>
 
                     <!-- Sell Button -->
