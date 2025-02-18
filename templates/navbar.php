@@ -131,7 +131,7 @@ echo json_encode(["status" => "error","message"=>"OTP sent verified"]);
 
 
 
-<nav class="navbar navbar-expand-md navbar-light bg-light px-3">
+<nav class="navbar position-fixed w-100 top-0 navbar-expand-md px-3" style="z-index: 1; background-color: #e9ecef;">
     <div class="container-fluid">
         <!-- Mobile View: Hamburger Menu -->
         <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

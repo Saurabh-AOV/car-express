@@ -4,6 +4,18 @@
     --theme-box-color: black;
 }
 
+:root {
+    --theme-colorPalettes-color1 : #f8f9fa;
+    --theme-colorPalettes-color2 : #e9ecef;
+    --theme-colorPalettes-color3 : #dee2e6;
+    --theme-colorPalettes-color4 : #ced4da;
+    --theme-colorPalettes-color5 : #adb5bd;
+    --theme-colorPalettes-color6 : #6c757d;
+    --theme-colorPalettes-color7 : #495057;
+    --theme-colorPalettes-color8 : #343a40;
+    --theme-colorPalettes-color9 : #212529;    
+}
+
 
 
 /* Navbar CSS */
@@ -196,21 +208,21 @@
     text-align: right;
 }
 
-.logos div {
+/* .logos div {
     display: flex;
     justify-content: center;
-}
+} */
 
-@media screen and (max-width:500px) {
+/* @media screen and (max-width:500px) {
     .logos div {
         flex-direction: column;
     }
-}
+} */
 
 @media (max-width: 500px) {
     .logos .d-flex {
         flex-direction: column;
-        gap: 3rem;
+        gap: 1rem;
     }
 }
 
@@ -285,11 +297,17 @@
 
 
 .main-container {
+    margin-top: 6rem;
     margin-bottom: 1.5rem;
 }
 
 
-
+@media (max-width: 765px) {
+    .main-container {
+        margin-top: 5rem;
+    }
+    
+}
 
 
 

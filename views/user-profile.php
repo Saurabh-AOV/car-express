@@ -26,12 +26,12 @@
 
     .profile-nav,
     .profile-info {
-        margin-top: 30px;
+        margin-top: 15px;
     }
 
     .profile-nav .user-heading {
-        background: #fbc02d;
-        color: #fff;
+        background: #ced4da;
+        color: #495057;
         border-radius: 4px 4px 0 0;
         -webkit-border-radius: 4px 4px 0 0;
         padding: 30px;
@@ -128,8 +128,8 @@
     }
 
     .bio-graph-heading {
-        background: #fbc02d;
-        color: #fff;
+        background: #ced4da;
+        color: #495057;
         text-align: center;
         font-style: italic;
         padding: 40px 110px;
@@ -485,7 +485,7 @@
             </div>
 
             <!-- Main Content -->
-            <div class="container-fluid mt-5">
+            <div class="container-fluid mt-5 d-none">
                 <div class="row gap-md-0 gap-sm-0 gap-2">
                     <!-- Total Users Card -->
                     <div class="col-md-4 col-sm-6 col-12 col-sm-6 col-12">
@@ -562,7 +562,14 @@
 
             <!-- Product card -->
             <div>
-            <?php require_once __DIR__ . '/sections/productCard.php'; ?>
+                <?php
+                $userId = 23423;
+
+
+                $query = "SELECT product_id, product_image, price, created_at, product_name AS title, location AS address 
+        FROM products 
+        ORDER BY created_at DESC";
+                require_once __DIR__ . '/sections/productCard.php'; ?>
             </div>
         </div>
     </div>

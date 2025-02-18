@@ -22,7 +22,7 @@ if ($cityResult->num_rows > 0) {
 <footer class="footer mt-auto mt-5">
 
     <!-- Top Desktop footer -->
-    <div class="bg-dark py-3 pt-4">
+    <div class="py-3 pt-4" style="background-color: #343a40; color: #e9ecef;">
         <div class="container">
             <div class="row">
                 <!-- Location Column -->
@@ -119,46 +119,39 @@ if ($cityResult->num_rows > 0) {
             });
     </script>
 
-    <div class="py-3 px-3  ">
-        <div class="container text-center">
-            <!-- Logos in a single line -->
-            <div class="row justify-content-center mb-3">
-                <div class="col-12 logos">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <img src="../image.jpg" style="height: 3rem; width:3rem;" alt="CarTradeTech Logo">
-                        </div>
-                        <div>
-                            <div class="col-4">
-                                <img src="../image.jpg" style="height: 3rem; width:3rem;" alt="OLX Logo">
-                            </div>
-                            <div class="col-4">
-                                <img src="../image.jpg" style="height: 3rem; width:3rem;" alt="CarWale Logo">
-                            </div>
-                            <div class="col-4">
-                                <img src="../image.jpg" style="height: 3rem; width:3rem;" alt="BikeWale Logo">
-                            </div>
-                            <div class="col-4">
-                                <img src="../image.jpg" style="height: 3rem; width:3rem;" alt="CarTrade Logo">
-                            </div>
-                            <div class="col-4">
-                                <img src="../image.jpg" style="height: 3rem; width:3rem;" alt="Mobility Outlook Logo">
-                            </div>
-                        </div>
+    <!-- Logo and Footer Links -->
+    <div class="py-3 px-3" style="background-color: #e9ecef; color:#343a40;">
+        <div class="container">
+            <div class="row align-items-center gap-2 gap-sm-0">
+                <!-- Logo on Left & Partner Logos on Right for Tablet View -->
+                <div class="col-12 col-md-6 d-flex justify-content-center justify-content-sm-start">
+                    <img src="../assets/images/logo/logo.PNG" style="height: 3rem;" class="img-fluid" alt="CarTradeTech Logo">
+                </div>
+                <div class="col-12 col-md-6 d-flex justify-content-sm-end justify-content-center">
+                    <div class="d-flex justify-content-between gap-3">
+                        <img src="../image.jpg" class="img-fluid" style="max-width: 3rem;" alt="OLX Logo">
+                        <img src="../image.jpg" class="img-fluid" style="max-width: 3rem;" alt="CarWale Logo">
+                        <img src="../image.jpg" class="img-fluid" style="max-width: 3rem;" alt="BikeWale Logo">
+                        <img src="../image.jpg" class="img-fluid" style="max-width: 3rem;" alt="CarTrade Logo">
+                        <img src="../image.jpg" class="img-fluid" style="max-width: 3rem;" alt="Mobility Outlook Logo">
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Footer text in a single line -->
-        <div class="row">
-            <div class="col-12 bottom-text">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <a href="#">Help</a> |
-                        <a href="#">Sitemap</a> |
-                    </div>
-                    <div>
-                        <span>All rights reserved © 2006-2025 OLX</span>
+
+
+        <!-- Footer Bottom Text -->
+        <div class="container mt-3">
+            <div class="row">
+                <div class="col-12 text-center text-md-start">
+                    <div class="d-flex flex-wrap justify-content-center justify-content-md-between">
+                        <div>
+                            <a href="#" style="color: #343a40;">Help</a> |
+                            <a href="#" style="color: #343a40;">Sitemap</a>
+                        </div>
+                        <div>
+                            <span>All rights reserved © 2006-2025 OLX</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -168,8 +161,9 @@ if ($cityResult->num_rows > 0) {
 
 <!-- Bootstrap JS and dependencies -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
 
-        </body>
-        </html>
+</body>
+
+</html>

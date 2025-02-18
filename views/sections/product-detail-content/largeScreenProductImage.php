@@ -46,4 +46,4 @@ let currentIndex = 0;
         document.querySelectorAll(".thumbnail").forEach(img => img.classList.remove("active"));
         document.querySelectorAll(".thumbnail")[currentIndex].classList.add("active");
     }
-</script>-
+</script>

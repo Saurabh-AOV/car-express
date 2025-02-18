@@ -1,5 +1,5 @@
 <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
+        <ol class="breadcrumb mx-3">
                 <li class="breadcrumb-item"><a href="/car-express/public/home" style="text-decoration:none;">Home</a>
                 </li>
                 <li class="breadcrumb-item"><a href="/car-express/public/products"

@@ -19,7 +19,7 @@ $result = $conn->query($sql);
 ?>
 
 
-<div class="container-fluid">
+<div class="container-fluid mx-0 mx-md-3">
     <div class="row g-4">
         <?php if ($result->num_rows > 0): ?>
             <?php while ($row = $result->fetch_assoc()): ?>
@@ -60,7 +60,7 @@ $result = $conn->query($sql);
                 ?>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
 
-                    <a href="/car-express/public/product-detail/<?php echo $row['product_id']; ?>" class="text-dark" style="text-decoration:none;">
+                    <a href="/car-express/public/product-detail?listing=<?php echo $row['product_id']; ?>" class="text-dark" style="text-decoration:none;">
                         <div class="card shadow-sm p-1">
                             <!-- Favorite Icon -->
                             <div class="favorite">
