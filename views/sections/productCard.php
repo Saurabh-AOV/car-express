@@ -9,9 +9,10 @@ while ($cityRow = $cityResult->fetch_assoc()) {
     $cityNames[$cityRow['city_id']] = ucwords(htmlspecialchars($cityRow['city_name']));
 }
 
+$userId = 9876543210;
 
 // Fetch Products with a query
-$sql = isset($query) ? $query : "SELECT product_id, product_image, price, created_at, product_name AS title, location AS address 
+$sql = isset($query) ? $query : "SELECT product_id, product_image, price, created_at, product_name AS title, location_city AS address 
         FROM products 
         ORDER BY created_at DESC";
 

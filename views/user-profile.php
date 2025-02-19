@@ -1,16 +1,3 @@
-<!-- <div class="d-flex gap-2"> -->
-<!-- User profile , if exist -->
-<!-- <div class="w-25">
-        <p>I am user profile</p>
-    </div> -->
-
-<!-- Product card if uploaded -->
-<!-- <div class="w-75"> -->
-
-
-<!-- </div>
-</div> -->
-
 <style>
     body {
         color: #797979;
@@ -404,96 +391,293 @@
 </style>
 
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+<?php
+// Get user_id from request
+$userId = isset($_GET['user_id']) ? intval($_GET['user_id']) : 9876543210;
+
+$sql = "SELECT username, email, phone_number, created_at, city, state,about_me, pincode, preferred_language FROM users WHERE phone_number = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $userId);
+$stmt->execute();
+$userDetailResult = $stmt->get_result();
+
+// Fetch data
+if ($userDetailResult->num_rows > 0) {
+    $userData = $userDetailResult->fetch_assoc();
+
+    // Split the name into first and last
+    $nameParts = explode(' ', $userData['username'], 2);
+    $firstName = $nameParts[0]; // First name is always available
+    $lastName = isset($nameParts[1]) ? $nameParts[1] : ""; // Only set if there's a second part
+
+} else {
+    echo json_encode(["error" => "User not found"]);
+}
+
+// Assuming $conn is your database connection
+$cityId = $userData['city'];
+$stateId = $userData['state'];
+
+// Prepare and execute the statement
+// 1️⃣ **Fetch City Name**
+$cityQuery = "SELECT city_name FROM location_city WHERE city_id = ?";
+$stmt = $conn->prepare($cityQuery);
+$stmt->bind_param("i", $cityId);
+$stmt->execute();
+$cityResult = $stmt->get_result();
+$cityRow = $cityResult->fetch_assoc();
+$cityName = $cityRow ? ucwords(htmlspecialchars($cityRow['city_name'])) : "Unknown City";
+$stmt->close();
+
+// 2️⃣ **Fetch State Name**
+$stateQuery = "SELECT state_name FROM location_state WHERE state_id = ?";
+$stmt = $conn->prepare($stateQuery);
+$stmt->bind_param("i", $stateId);
+$stmt->execute();
+$stateResult = $stmt->get_result();
+$stateRow = $stateResult->fetch_assoc();
+$stateName = $stateRow ? ucwords(htmlspecialchars($stateRow['state_name'])) : "Unknown State";
+
+?>
+
 <div class="container-fluid bootstrap snippets bootdey">
     <div class="row">
+
+        <!-- Side bar -->
         <div class="profile-nav col-md-3">
             <div class="panel">
                 <div class="user-heading round">
                     <a href="#">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
+                        <img src="<?php echo !empty($userData['profile_image']) ? htmlspecialchars($userData['profile_image']) : '../assets/images/profile/no-profile.jpg'; ?>"
+                            alt="Profile Image"
+                            draggable="false">
+
                     </a>
-                    <h1>Camila Smith</h1>
-                    <p>deydey@theEmail.com</p>
+                    <h1><?php echo $userData['username'] ?></h1>
+                    <p><?php echo $userData['email'] ?></p>
                 </div>
 
                 <ul class="nav nav-pills nav-stacked bg-light">
-                    <li class="w-100 px-2 py-2"><a href="#" style="text-decoration:none;"> <i class="fa fa-user"></i> Profile</a></li>
-                    <li class="w-100 px-2 py-2"><a href="#" style="text-decoration:none;"> <i class="fa fa-calendar"></i> Recent Activity <span class="label label-warning pull-right r-activity">9</span></a></li>
-                    <li class="w-100 px-2 py-2"><a href="#" style="text-decoration:none;"> <i class="fa fa-edit"></i> Edit profile</a></li>
+                    <li style="cursor: pointer;" class="w-100 px-2 py-2"><a class="nav-link" data-target="profileSection"> <i class="fa fa-user"></i> Profile</a></li>
+                    <li style="cursor: pointer;" class="w-100 px-2 py-2"><a class="nav-link" data-target="editSection"> <i class="fa fa-edit"></i> Edit profile</a></li>
+                    <li style="cursor: pointer;" class="w-100 px-2 py-2"><a class="nav-link" data-target="dashboardSection"> <i class="fa fa-cogs"></i> Dashboard</a></li>
+                    <li style="cursor: pointer;" class="w-100 px-2 py-2"><a class="nav-link" data-target="wishlistSection"> <i class="fa fa-gift"></i> Wishlist</a></li>
+                    <li style="cursor: pointer;" class="w-100 px-2 py-2"><a class="nav-link" data-target="sellSection"> <i class="fa fa-th-list"></i> Sell</a></li>
+
                 </ul>
             </div>
         </div>
 
+        <!-- Large area -->
         <div class="profile-info col-md-9">
-            <!-- <div class="panel">
-                <form>
-                    <textarea placeholder="Whats in your mind today?" rows="2" class="form-control input-lg p-text-area"></textarea>
-                </form>
-                <footer class="panel-footer">
-                    <button class="btn btn-warning pull-right">Post</button>
-                    <ul class="nav nav-pills">
-                        <li>
-                            <a href="#"><i class="fa fa-map-marker"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-camera"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class=" fa fa-film"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-microphone"></i></a>
-                        </li>
-                    </ul>
-                </footer>
-            </div> -->
 
-
-            <div class="panel">
+            <!-- Profile -->
+            <div id="profileSection" class="panel section">
                 <div class="bio-graph-heading">
-                    Aliquam ac magna metus. Nam sed arcu non tellus fringilla fringilla ut vel ispum. Aliquam ac magna metus.
+                    <?php echo !empty($userData['about_me']) ? htmlspecialchars($userData['about_me']) : "Aliquam ac magna metus. Nam sed arcu non tellus fringilla fringilla ut vel ipsum. Aliquam ac magna metus."; ?>
+
                 </div>
                 <div class="panel-body bio-graph-info mt-3">
-                    <h1>Bio Graph</h1>
+                    <h1>Your details</h1>
                     <div class="row">
                         <div class="bio-row">
-                            <p><span>First Name </span>: Camila</p>
+                            <p><span>First Name </span>: <?php echo htmlspecialchars($firstName); ?></p>
+                        </div>
+
+                        <?php if (!empty($lastName)) : ?>
+                            <div class="bio-row">
+                                <p><span>Last Name </span>: <?php echo htmlspecialchars($lastName); ?></p>
+                            </div>
+                        <?php endif; ?>
+                        <div class="bio-row">
+                            <p><span>Email </span>: <?php echo $userData['email'] ?></p>
                         </div>
                         <div class="bio-row">
-                            <p><span>Last Name </span>: Smith</p>
+                            <p><span>Mobile </span>: <?php echo $userData['phone_number'] ?></p>
                         </div>
                         <div class="bio-row">
-                            <p><span>Country </span>: Australia</p>
+                            <p><span>Language </span>: <?php echo $userData['preferred_language'] ?></p>
                         </div>
                         <div class="bio-row">
-                            <p><span>Birthday</span>: 13 July 1983</p>
+                            <p><span>Join Date </span>: <?php echo htmlspecialchars($formattedDate = date("d M, Y", strtotime($userData['created_at']))) ?></p>
                         </div>
                         <div class="bio-row">
-                            <p><span>Occupation </span>: UI Designer</p>
+                            <p><span>Address</span>: <?php echo $cityName . ', ' . $stateName . ', India' ?></p>
                         </div>
                         <div class="bio-row">
-                            <p><span>Email </span>: jsmith@flatlab.com</p>
+                            <p><span>Pincode</span>: <?php echo !empty($userData['pincode']) ? htmlspecialchars($userData['pincode']) : "Not available"; ?></p>
                         </div>
-                        <div class="bio-row">
-                            <p><span>Mobile </span>: (12) 03 4567890</p>
-                        </div>
-                        <div class="bio-row">
-                            <p><span>Phone </span>: 88 (02) 123456</p>
-                        </div>
+
+
                     </div>
                 </div>
             </div>
 
-            <!-- Main Content -->
-            <div class="container-fluid mt-5 d-none">
+            <!-- Edit profile -->
+            <?php
+            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
+                $userName = $_POST['username'];
+                $aboutMe = $_POST['about_me'];
+                $email = $_POST['email'];
+                $city = $_POST['city'];
+                $state = $_POST['state'];
+                $preferredLanguage = $_POST['preferred_language'];
+                $pincode = $_POST['pincode'];
+
+                // Check if user ID exists
+                if (!isset($userData['phone_number'])) {
+                    die("User ID is missing.");
+                }
+
+                // Update query
+                $updateQuery = "UPDATE users SET username = ?, about_me = ?, email = ?, city = ?, state = ?, preferred_language = ?, pincode = ? WHERE phone_number = ?";
+                $stmt = $conn->prepare($updateQuery);
+
+                if ($stmt) {
+                    $stmt->bind_param("sssssssi", $userName, $aboutMe, $email, $city, $state, $preferredLanguage, $pincode, $userData['phone_number']);
+                    if ($stmt->execute()) {
+                        $stmt->close();
+                        unset($userName, $aboutMe, $email, $city, $state, $preferredLanguage, $pincode);
+                        // Redirect to the same page to prevent form resubmission
+                        header("Location: " . $_SERVER['PHP_SELF'] . "?success=1");
+                        exit();
+                    } else {
+                        echo "Error updating profile: " . $stmt->error;
+                    }
+                    $stmt->close();
+                } else {
+                    echo "SQL Error: " . $conn->error;
+                }
+            }
+            ?>
+            <div id="editSection" class="panel section d-none">
+                <form method="POST" action="">
+                    <div class="bio-graph-heading">
+                        <textarea name="about_me"><?php echo !empty($userData['about_me']) ? htmlspecialchars($userData['about_me']) : "Aliquam ac magna metus. Nam sed arcu non tellus fringilla fringilla ut vel ipsum. Aliquam ac magna metus."; ?></textarea>
+                    </div>
+                    <div class="panel-body bio-graph-info mt-3">
+                        <h1>Edit Profile</h1>
+                        <div class="row">
+                            <div class="bio-row">
+                                <p><span>Name </span>: <input class="form-control" type="text" name="username" value="<?php echo htmlspecialchars($userData['username']); ?>"></p>
+                            </div>
+                            <div class="bio-row">
+                                <p><span>Email </span>: <input class="form-control" type="email" name="email" value="<?php echo htmlspecialchars($userData['email']); ?>"></p>
+                            </div>
+
+
+                            <?php
+                            // Fetch states from the 'location_state' table
+                            $sql = "SELECT DISTINCT state_id, state_name FROM location_state";
+                            $stateResult = $conn->query($sql);
+
+                            // Fetch cities with their corresponding state_id
+                            $sql = "SELECT city_id, city_name, state_id FROM location_city";
+                            $cityResult = $conn->query($sql);
+                            $cities = [];
+                            while ($row = $cityResult->fetch_assoc()) {
+                                $cities[] = $row;
+                            }
+                            ?>
+
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function() {
+                                    // Parse JSON data from PHP
+                                    const cities = JSON.parse(document.getElementById("city-data").textContent);
+
+                                    document.getElementById("state").addEventListener("change", function() {
+                                        let stateId = this.value;
+                                        let cityDropdown = document.getElementById("city");
+
+                                        // Reset city dropdown
+                                        cityDropdown.innerHTML = '<option selected disabled>Select City</option>';
+
+                                        // Filter cities based on selected state
+                                        let filteredCities = cities.filter(city => city.state_id == stateId);
+                                        filteredCities.forEach(city => {
+                                            let option = document.createElement("option");
+                                            option.value = city.city_id;
+                                            option.textContent = city.city_name;
+                                            cityDropdown.appendChild(option);
+                                        });
+                                    });
+                                });
+                            </script>
+
+                            <div class="bio-row">
+                                <p><span>State </span>: <select class="form-select" name="state" id="state">
+                                        <option selected disabled>Select State</option>
+                                        <?php
+                                        while ($row = $stateResult->fetch_assoc()) {
+                                            echo "<option value='" . htmlspecialchars($row['state_id']) . "'>" . htmlspecialchars($row['state_name']) . "</option>";
+                                        }
+                                        ?>
+                                    </select></p>
+                            </div>
+
+                            <div class="bio-row">
+                                <p><span>City </span>: <select class="form-select" name="city" id="city">
+                                        <option selected disabled>Select City</option>
+                                    </select></p>
+                            </div>
+                            <script type="application/json" id="city-data">
+                                <?= json_encode($cities) ?>
+                            </script>
+
+                            <div class="bio-row">
+                                <p><span>Language </span>:
+                                    <select class="form-select bg-transparent" id="languageSelect" name="preferred_language" style="outline:0; border:0;">
+                                        <?php
+                                        // Fetch language data
+                                        $languageQuery = "SELECT language_id, language_name FROM languages";
+                                        $languageResult = $conn->query($languageQuery);
+
+                                        $selectedLanguage = $userData['preferred_language'];
+                                        if ($languageResult->num_rows > 0) {
+                                            while ($row = $languageResult->fetch_assoc()) {
+                                                $selected = ($row['language_name'] === $selectedLanguage) ? "selected" : "";
+                                                echo "<option value='" . htmlspecialchars($row['language_name']) . "' $selected>" . htmlspecialchars($row['language_name']) . "</option>";
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </p>
+                            </div>
+
+                            <div class="bio-row">
+                                <p><span>Pincode</span>: <input type="tel" id="pincode" name="pincode" class="form-control" pattern="\d{6}" maxlength="6" value="<?php echo htmlspecialchars($userData['pincode']); ?>"></p>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100" name="update_profile">Update Profile</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Dashboard -->
+            <div id="dashboardSection" class="container-fluid d-none section">
                 <div class="row gap-md-0 gap-sm-0 gap-2">
                     <!-- Total Users Card -->
                     <div class="col-md-4 col-sm-6 col-12 col-sm-6 col-12">
                         <div class="card bg-primary text-white">
                             <div class="card-body">
-                                <h5 class="card-title">Total Users</h5>
-                                <p class="card-text fs-4"><?= $totalUsers ?></p> <!-- Dynamically fetched total users -->
-                                <a href="./manage-student.php" class="btn btn-light">View Users</a>
+                                <h5 class="card-title">Wishlist</h5>
+                                <p class="card-text fs-4"><?php
+                                                            // Fetch wishlist count for the user
+                                                            $sql = "SELECT COUNT(*) AS wishlist_count FROM wishlist WHERE user_id = $userId";
+                                                            $result = $conn->query($sql);
+
+                                                            if ($result->num_rows > 0) {
+                                                                $row = $result->fetch_assoc();
+                                                                $wishlistCount = $row['wishlist_count'];
+                                                            } else {
+                                                                $wishlistCount = 0;
+                                                            }
+
+                                                            // Print the count
+                                                            echo $wishlistCount;
+                                                            ?></p> <!-- Dynamically fetched total users -->
+                                <a data-target="wishlistSection" class="nav-link btn py-2 bg-light text-dark">View wishlist</a>
                             </div>
                         </div>
                     </div>
@@ -502,75 +686,276 @@
                     <div class="col-md-4 col-sm-6 col-12">
                         <div class="card bg-success text-white">
                             <div class="card-body">
-                                <h5 class="card-title">Total Universities</h5>
-                                <p class="card-text fs-4"><?= $totalUniversities ?></p> <!-- Dynamically fetched total universities -->
-                                <a href="manage-university.php" class="btn btn-light">View Universities</a>
-                            </div>
-                        </div>
-                    </div>
+                                <h5 class="card-title">Your listing</h5>
+                                <p class="card-text fs-4"><?php
 
-                    <!-- Total Schools Card -->
-                    <div class="col-md-4 col-sm-6 col-12 mt-sm-3 mt-md-0 mt-0">
-                        <div class="card bg-danger text-white">
-                            <div class="card-body">
-                                <h5 class="card-title">Total Schools</h5>
-                                <p class="card-text fs-4"><?= $totalSchools ?></p> <!-- Dynamically fetched total schools -->
-                                <a href="manage-school.php" class="btn btn-light">View Schools</a>
-                            </div>
-                        </div>
-                    </div>
+                                                            // Fetch wishlist count for the user
+                                                            $sql = "SELECT COUNT(*) AS listing_count FROM products WHERE user_id = $userId";
+                                                            $result = $conn->query($sql);
 
-                    <!-- Total Courses for University -->
-                    <div class="col-md-4 col-sm-6 col-12 mt-sm-3 mt-md-3 mt-0">
-                        <div class="card bg-info text-white">
-                            <div class="card-body">
-                                <h5 class="card-title">Total University Courses</h5>
-                                <p class="card-text fs-4"><?= $totalCourses ?></p> <!-- Dynamically fetched total courses -->
-                                <a href="manage-course.php" class="btn btn-light">View Courses</a>
-                            </div>
-                        </div>
-                    </div>
+                                                            if ($result->num_rows > 0) {
+                                                                $row = $result->fetch_assoc();
+                                                                $listingCount = $row['listing_count'];
+                                                            } else {
+                                                                $listingCount = 0;
+                                                            }
 
-                    <!-- Cities Covered -->
-                    <div class="col-md-4 col-sm-6 col-12 mt-sm-3 mt-md-3 mt-0">
-                        <div class="card bg-warning text-light">
-                            <div class="card-body">
-                                <h5 class="card-title">Total Cities Covered</h5>
-                                <p class="card-text fs-4"><?= $totalCities ?></p> <!-- Dynamically fetched total cities -->
-                                <a href="manage-city.php" class="btn btn-light">View Cities</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Latest Registered Users -->
-                    <div class="col-md-4 col-sm-6 col-12 mt-sm-3 mt-md-3 mt-0">
-                        <div class="card bg-secondary text-white">
-                            <div class="card-body">
-                                <h5 class="card-title">Latest Registered Users</h5>
-                                <ul class="list-group">
-                                    <?php foreach ($latestUsers as $user) : ?>
-                                        <li class="list-group-item"><a class="text-dark" style="text-decoration: none;" href="/gurukuldekho/admin/pages/manage-student.php?search=<?= ($user === "Unknown") ? "" : $user ?>"> <?= $user ?></a></li>
-                                    <?php endforeach; ?>
-                                </ul>
-                                <a href="manage-student.php" class="btn btn-light mt-2">View All Users</a>
+                                                            // Print the count
+                                                            echo $listingCount;
+                                                            ?></p> <!-- Dynamically fetched total universities -->
+                                <a data-target="sellSection" class="nav-link btn py-2 bg-light text-dark">View Listing</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Wishlist listing -->
+            <div id="wishlistSection" class="container-fluid section d-none">
+                <div class="row g-4">
+                    <?php
 
-            <!-- Product card -->
-            <div>
-                <?php
-                $userId = 23423;
 
 
-                $query = "SELECT product_id, product_image, price, created_at, product_name AS title, location AS address 
-        FROM products 
-        ORDER BY created_at DESC";
-                require_once __DIR__ . '/sections/productCard.php'; ?>
+                    // Fetch product IDs from the wishlist
+                    $sql = "SELECT product_id FROM wishlist WHERE user_id = $userId";
+                    $result = $conn->query($sql);
+
+                    $productIds = [];
+
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            $productIds[] = $row['product_id'];
+                        }
+                    } else {
+                        echo "<div class='col-12 text-center'><h4 class='text-danger'>No Wishlist Items Found</h4></div>";
+                    }
+
+
+                    // Check if there are product IDs
+                    if (!empty($productIds)) {
+                        // Convert array to a comma-separated string for SQL IN clause
+                        $productIdsString = implode(',', array_map('intval', $productIds));
+
+                        $query = "SELECT product_id, product_image, price, created_at, product_name AS title, 
+                         location_city AS address, year_of_registration, mileage
+                  FROM products 
+                  WHERE product_id IN ($productIdsString) 
+                  ORDER BY created_at DESC";
+
+                        $resultProductCard = $conn->query($query);
+
+                        if (!$resultProductCard) {
+                            die("<div class='col-12 text-center'><h4 class='text-danger'>SQL Error: " . $conn->error . "</h4></div>");
+                        }
+
+                        if ($resultProductCard->num_rows > 0) {
+                            while ($row = $resultProductCard->fetch_assoc()) {
+                                // Calculate time ago
+                                $createdAt = new DateTime($row['created_at']);
+                                $now = new DateTime();
+                                $diffInSeconds = $now->getTimestamp() - $createdAt->getTimestamp();
+
+                                if ($diffInSeconds < 0) {
+                                    $timeAgo = "Just now";
+                                } elseif ($diffInSeconds < 60) {
+                                    $timeAgo = "$diffInSeconds second" . ($diffInSeconds > 1 ? 's' : '') . " ago";
+                                } elseif ($diffInSeconds < 3600) {
+                                    $minutes = floor($diffInSeconds / 60);
+                                    $timeAgo = "$minutes minute" . ($minutes > 1 ? 's' : '') . " ago";
+                                } elseif ($diffInSeconds < 86400) {
+                                    $hours = floor($diffInSeconds / 3600);
+                                    $timeAgo = "$hours hour" . ($hours > 1 ? 's' : '') . " ago";
+                                } elseif ($diffInSeconds < 2592000) {
+                                    $days = floor($diffInSeconds / 86400);
+                                    $timeAgo = "$days day" . ($days > 1 ? 's' : '') . " ago";
+                                } elseif ($diffInSeconds < 31536000) {
+                                    $months = floor($diffInSeconds / 2592000);
+                                    $timeAgo = "$months month" . ($months > 1 ? 's' : '') . " ago";
+                                } else {
+                                    $years = floor($diffInSeconds / 31536000);
+                                    $timeAgo = "$years year" . ($years > 1 ? 's' : '') . " ago";
+                                }
+
+                                // City name lookup
+                                $city_id = (int) $row['address'];
+                                $city_name = isset($cityNames[$city_id]) ? $cityNames[$city_id] : "Unknown City";
+                    ?>
+
+                                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                    <a href="/car-express/public/product-detail?listing=<?php echo $row['product_id']; ?>" class="text-dark" style="text-decoration:none;">
+                                        <div class="card shadow-sm p-1">
+                                            <!-- Favorite Icon -->
+                                            <div class="favorite">
+                                                <i class="bi bi-heart" style="cursor: pointer;"></i>
+                                            </div>
+
+                                            <!-- Product Image -->
+                                            <div class="d-sm-block d-md-none p-0" style="height: 10rem;">
+                                                <img src="../image.jpg" class="card-img-top w-100" alt="Product Image" style="object-fit: cover; height: 100%; width: 100%;">
+                                            </div>
+
+                                            <div class="d-none d-md-block">
+                                                <img src="../image.jpg" class="card-img-top" alt="Product Image">
+                                            </div>
+
+                                            <div class="card-body">
+                                                <!-- Price -->
+                                                <p class="price">₹<?php echo number_format($row['price']); ?></p>
+
+                                                <!-- Title with Ellipsis -->
+                                                <h6 class="card-title text-truncate" title="<?php echo htmlspecialchars($row['title']); ?>" style="max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                    <?php echo htmlspecialchars($row['title']); ?>
+                                                </h6>
+
+                                                <!-- Year & KM -->
+                                                <p class="text-muted" style="margin-bottom:2px;">
+                                                    <?php echo isset($row['year_of_registration']) ? "• " . $row['year_of_registration'] : "";  ?>
+                                                    <?php echo isset($row['mileage']) ? "• " . number_format($row['mileage']) . " Mileage" : "" ?>
+                                                </p>
+
+                                                <div class="d-flex justify-content-between">
+                                                    <!-- City name -->
+                                                    <p class="text-muted small mb-0"><?php echo $city_name; ?></p>
+                                                    <!-- Listing Date -->
+                                                    <p class="listed mb-0"><?php echo $timeAgo; ?></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
+                    <?php
+                            }
+                        } else {
+                            echo '<div class="col-12 text-center"><h4 class="text-muted">No products found</h4></div>';
+                        }
+                    }
+                    ?>
+                </div>
+
             </div>
+
+            <!-- Your listing -->
+            <div id="sellSection" class="container-fluid section d-none">
+                <div class="row g-4">
+                    <?php
+                    $querySell = "SELECT product_id, product_image, price, created_at, product_name AS title, 
+                         location_city AS address, year_of_registration, mileage
+                  FROM products 
+                  WHERE user_id = $userId 
+                  ORDER BY created_at DESC";
+
+
+                    $resultSellProduct = $conn->query($querySell);
+
+                    if (!$resultSellProduct) {
+                        die("<div class='col-12 text-center'><h4 class='text-danger'>SQL Error: " . $conn->error . "</h4></div>");
+                    }
+
+                    if ($resultSellProduct->num_rows > 0) {
+                        while ($row = $resultSellProduct->fetch_assoc()) {
+                            // Calculate time ago
+                            $createdAt = new DateTime($row['created_at']);
+                            $now = new DateTime();
+                            $diffInSeconds = $now->getTimestamp() - $createdAt->getTimestamp();
+
+                            if ($diffInSeconds < 0) {
+                                $timeAgo = "Just now";
+                            } elseif ($diffInSeconds < 60) {
+                                $timeAgo = "$diffInSeconds second" . ($diffInSeconds > 1 ? 's' : '') . " ago";
+                            } elseif ($diffInSeconds < 3600) {
+                                $minutes = floor($diffInSeconds / 60);
+                                $timeAgo = "$minutes minute" . ($minutes > 1 ? 's' : '') . " ago";
+                            } elseif ($diffInSeconds < 86400) {
+                                $hours = floor($diffInSeconds / 3600);
+                                $timeAgo = "$hours hour" . ($hours > 1 ? 's' : '') . " ago";
+                            } elseif ($diffInSeconds < 2592000) {
+                                $days = floor($diffInSeconds / 86400);
+                                $timeAgo = "$days day" . ($days > 1 ? 's' : '') . " ago";
+                            } elseif ($diffInSeconds < 31536000) {
+                                $months = floor($diffInSeconds / 2592000);
+                                $timeAgo = "$months month" . ($months > 1 ? 's' : '') . " ago";
+                            } else {
+                                $years = floor($diffInSeconds / 31536000);
+                                $timeAgo = "$years year" . ($years > 1 ? 's' : '') . " ago";
+                            }
+
+                            // City name lookup
+                            $city_id = (int) $row['address'];
+                            $city_name = isset($cityNames[$city_id]) ? $cityNames[$city_id] : "Unknown City";
+                    ?>
+
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                <a href="/car-express/public/product-detail?listing=<?php echo $row['product_id']; ?>" class="text-dark" style="text-decoration:none;">
+                                    <div class="card shadow-sm p-1">
+                                        <!-- Favorite Icon -->
+                                        <div class="favorite">
+                                            <i class="bi bi-heart" style="cursor: pointer;"></i>
+                                        </div>
+
+                                        <!-- Product Image -->
+                                        <div class="d-sm-block d-md-none p-0" style="height: 10rem;">
+                                            <img src="../image.jpg" class="card-img-top w-100" alt="Product Image" style="object-fit: cover; height: 100%; width: 100%;">
+                                        </div>
+
+                                        <div class="d-none d-md-block">
+                                            <img src="../image.jpg" class="card-img-top" alt="Product Image">
+                                        </div>
+
+                                        <div class="card-body">
+                                            <!-- Price -->
+                                            <p class="price">₹<?php echo number_format($row['price']); ?></p>
+
+                                            <!-- Title with Ellipsis -->
+                                            <h6 class="card-title text-truncate" title="<?php echo htmlspecialchars($row['title']); ?>" style="max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                <?php echo htmlspecialchars($row['title']); ?>
+                                            </h6>
+
+                                            <!-- Year & KM -->
+                                            <p class="text-muted" style="margin-bottom:2px;">
+                                                <?php echo isset($row['year_of_registration']) ? "• " . $row['year_of_registration'] : "";  ?>
+                                                <?php echo isset($row['mileage']) ? "• " . number_format($row['mileage']) . " Mileage" : "" ?>
+                                            </p>
+
+                                            <div class="d-flex justify-content-between">
+                                                <!-- City name -->
+                                                <p class="text-muted small mb-0"><?php echo $city_name; ?></p>
+                                                <!-- Listing Date -->
+                                                <p class="listed mb-0"><?php echo $timeAgo; ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                    <?php
+                        }
+                    } else {
+                        echo '<div class="col-12 text-center"><h4 class="text-muted">No products found</h4></div>';
+                    }
+                    ?>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let navLinks = document.querySelectorAll(".nav-link");
+
+        navLinks.forEach(function(link) {
+            link.addEventListener("click", function(e) {
+                e.preventDefault();
+                let targetSection = this.getAttribute("data-target");
+
+                document.querySelectorAll(".section").forEach(function(section) {
+                    section.classList.add("d-none");
+                });
+
+                document.getElementById(targetSection).classList.remove("d-none");
+            });
+        });
+    });
+</script>
