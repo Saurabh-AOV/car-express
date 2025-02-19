@@ -231,8 +231,9 @@ if ($productId) {
                 <div class="product-details  card p-3 mb-2">
                     <div class="w-100 d-flex justify-content-between align-items-center">
                         <div class="d-flex gap-2 align-items-center">
-                            <img src="../image.jpg" style="height: 4rem; width:4rem; border-radius: 50%;"
-                                alt="user profile" />
+                        <img src="<?php echo !empty($userData['profile_image']) ? htmlspecialchars($userData['profile_image']) : '../assets/images/profile/no-profile.jpg'; ?>"
+                            alt="Profile Image"
+                            draggable="false" style="height: 4rem; width: 4rem; border-radius: 50%;">
                             <h5 class='mb-0'><?php echo $username ?></h5>
 
 

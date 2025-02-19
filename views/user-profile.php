@@ -787,7 +787,7 @@ $stateName = $stateRow ? ucwords(htmlspecialchars($stateRow['state_name'])) : "U
                                         <div class="card shadow-sm p-1">
                                             <!-- Favorite Icon -->
                                             <div class="favorite">
-                                                <i class="bi bi-heart" style="cursor: pointer;"></i>
+                                                <i class="bi bi-heart-fill text-success" style="cursor: pointer;"></i> <!-- Filled heart if in wishlist -->
                                             </div>
 
                                             <!-- Product Image -->
@@ -889,10 +889,6 @@ $stateName = $stateRow ? ucwords(htmlspecialchars($stateRow['state_name'])) : "U
                             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                 <a href="/car-express/public/product-detail?listing=<?php echo $row['product_id']; ?>" class="text-dark" style="text-decoration:none;">
                                     <div class="card shadow-sm p-1">
-                                        <!-- Favorite Icon -->
-                                        <div class="favorite">
-                                            <i class="bi bi-heart" style="cursor: pointer;"></i>
-                                        </div>
 
                                         <!-- Product Image -->
                                         <div class="d-sm-block d-md-none p-0" style="height: 10rem;">

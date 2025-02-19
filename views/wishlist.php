@@ -9,11 +9,11 @@
     <div>
         <?php
         // Get user ID from cookies
-        $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null;
+        $userId = isset($_GET['user_id']) ? intval($_GET['user_id']) : 9876543210;
 
         if ($user_id) {
             // Prepare and execute the query to get product IDs from the wishlist
-            $stmt = $conn->prepare("SELECT product_id FROM wishlist WHERE user_id = 9876543210");
+            $stmt = $conn->prepare("SELECT product_id FROM wishlist WHERE user_id = $userId");
             // $stmt->bind_param("s", $user_id); // Bind user_id to the query
             $stmt->execute();
             $result = $stmt->get_result();
@@ -31,7 +31,7 @@
                 // Fetch product details for those product IDs
                 $sql = "SELECT product_id, product_image, price, created_at, product_name AS title, location AS address 
                         FROM products 
-                        WHERE product_id IN ($product_ids_str) 
+                        WHERE product_id IN ($product_ids_str)
                         ORDER BY created_at DESC";
                 $result = $conn->query($sql);
 

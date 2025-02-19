@@ -11,6 +11,19 @@ while ($cityRow = $cityResult->fetch_assoc()) {
 
 $userId = 9876543210;
 
+// Fetch product IDs from the wishlist table for the given user
+$sql = "SELECT product_id FROM wishlist WHERE user_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $userId);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Store product IDs in an array
+$wishlist = [];
+while ($row = $result->fetch_assoc()) {
+    $wishlist[] = $row['product_id'];
+}
+
 // Fetch Products with a query
 $sql = isset($query) ? $query : "SELECT product_id, product_image, price, created_at, product_name AS title, location_city AS address 
         FROM products 
@@ -65,8 +78,13 @@ $result = $conn->query($sql);
                         <div class="card shadow-sm p-1">
                             <!-- Favorite Icon -->
                             <div class="favorite">
-                                <i class="bi bi-heart" style="cursor: pointer;"></i>
+                                <?php if (in_array($row['product_id'], $wishlist)): ?>
+                                    <i class="bi bi-heart-fill text-success" style="cursor: pointer;"></i> <!-- Filled heart if in wishlist -->
+                                <?php else: ?>
+                                    <i class="bi bi-heart" style="cursor: pointer;"></i> <!-- Regular heart if not in wishlist -->
+                                <?php endif; ?>
                             </div>
+
 
                             <!-- Product Image -->
                             <!-- Mobile View ke liye padding remove -->
