@@ -16,7 +16,8 @@ $routes = [
     '/product-detail' => '../views/product-details.php',
     '/profile'        => '../views/user-profile.php',
     '/sell'           => '../views/sell.php',
-    '/products'       => '../views/products.php'
+    '/products'       => '../views/products.php',
+    '/logout'       => '../views/logout.php'
 ];
 
 // If route exists, include the corresponding file
