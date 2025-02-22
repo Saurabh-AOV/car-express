@@ -2701,3 +2701,109 @@ Stack trace:
 [20-Feb-2025 12:34:58 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
 [20-Feb-2025 12:34:58 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
 [20-Feb-2025 12:34:58 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[21-Feb-2025 05:55:42 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[21-Feb-2025 05:55:42 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[21-Feb-2025 05:55:43 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[21-Feb-2025 05:55:43 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[21-Feb-2025 06:44:08 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[21-Feb-2025 06:44:08 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[21-Feb-2025 06:44:09 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[21-Feb-2025 06:44:09 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[21-Feb-2025 09:57:07 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[21-Feb-2025 09:57:07 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[21-Feb-2025 09:57:08 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[21-Feb-2025 09:57:08 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[21-Feb-2025 10:37:44 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[21-Feb-2025 10:37:44 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[21-Feb-2025 10:37:46 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[21-Feb-2025 10:37:46 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[22-Feb-2025 05:57:27 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[22-Feb-2025 05:57:27 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[22-Feb-2025 05:57:28 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[22-Feb-2025 05:57:28 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[22-Feb-2025 06:05:55 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[22-Feb-2025 06:05:55 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[22-Feb-2025 06:05:55 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\views\chat.php on line 2
+[22-Feb-2025 06:05:55 Europe/Berlin] PHP Warning:  include(db_connection.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\car-express\views\chat.php on line 3
+[22-Feb-2025 06:05:55 Europe/Berlin] PHP Warning:  include(): Failed opening 'db_connection.php' for inclusion (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\car-express\views\chat.php on line 3
+[22-Feb-2025 06:05:55 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'car-express.chat_messages' doesn't exist in C:\xampp\htdocs\car-express\views\chat.php:38
+Stack trace:
+#0 C:\xampp\htdocs\car-express\views\chat.php(38): mysqli->prepare('SELECT * FROM c...')
+#1 C:\xampp\htdocs\car-express\routes\web.php(25): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\car-express\public\index.php(19): require_once('C:\\xampp\\htdocs...')
+#3 {main}
+  thrown in C:\xampp\htdocs\car-express\views\chat.php on line 38
+[22-Feb-2025 06:05:57 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[22-Feb-2025 06:05:57 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[22-Feb-2025 06:05:57 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\views\chat.php on line 2
+[22-Feb-2025 06:05:57 Europe/Berlin] PHP Warning:  include(db_connection.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\car-express\views\chat.php on line 3
+[22-Feb-2025 06:05:57 Europe/Berlin] PHP Warning:  include(): Failed opening 'db_connection.php' for inclusion (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\car-express\views\chat.php on line 3
+[22-Feb-2025 06:05:57 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'car-express.chat_messages' doesn't exist in C:\xampp\htdocs\car-express\views\chat.php:38
+Stack trace:
+#0 C:\xampp\htdocs\car-express\views\chat.php(38): mysqli->prepare('SELECT * FROM c...')
+#1 C:\xampp\htdocs\car-express\routes\web.php(25): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\car-express\public\index.php(19): require_once('C:\\xampp\\htdocs...')
+#3 {main}
+  thrown in C:\xampp\htdocs\car-express\views\chat.php on line 38
+[22-Feb-2025 06:05:58 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[22-Feb-2025 06:05:58 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[22-Feb-2025 06:05:58 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\views\chat.php on line 2
+[22-Feb-2025 06:05:58 Europe/Berlin] PHP Warning:  include(db_connection.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\car-express\views\chat.php on line 3
+[22-Feb-2025 06:05:58 Europe/Berlin] PHP Warning:  include(): Failed opening 'db_connection.php' for inclusion (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\car-express\views\chat.php on line 3
+[22-Feb-2025 06:05:58 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'car-express.chat_messages' doesn't exist in C:\xampp\htdocs\car-express\views\chat.php:38
+Stack trace:
+#0 C:\xampp\htdocs\car-express\views\chat.php(38): mysqli->prepare('SELECT * FROM c...')
+#1 C:\xampp\htdocs\car-express\routes\web.php(25): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\car-express\public\index.php(19): require_once('C:\\xampp\\htdocs...')
+#3 {main}
+  thrown in C:\xampp\htdocs\car-express\views\chat.php on line 38
+[22-Feb-2025 06:10:25 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[22-Feb-2025 06:10:25 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[22-Feb-2025 06:10:25 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\views\chat.php on line 2
+[22-Feb-2025 06:10:25 Europe/Berlin] PHP Warning:  include(db_connection.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\car-express\views\chat.php on line 3
+[22-Feb-2025 06:10:25 Europe/Berlin] PHP Warning:  include(): Failed opening 'db_connection.php' for inclusion (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\car-express\views\chat.php on line 3
+[22-Feb-2025 06:10:25 Europe/Berlin] PHP Warning:  Undefined variable $receiver_id in C:\xampp\htdocs\car-express\views\chat.php on line 184
+[22-Feb-2025 06:10:26 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[22-Feb-2025 06:10:26 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[22-Feb-2025 06:10:51 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[22-Feb-2025 06:10:51 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[22-Feb-2025 06:10:51 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\views\chat.php on line 2
+[22-Feb-2025 06:10:51 Europe/Berlin] PHP Warning:  include(db_connection.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\car-express\views\chat.php on line 3
+[22-Feb-2025 06:10:51 Europe/Berlin] PHP Warning:  include(): Failed opening 'db_connection.php' for inclusion (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\car-express\views\chat.php on line 3
+[22-Feb-2025 06:10:51 Europe/Berlin] PHP Warning:  Undefined variable $receiver_id in C:\xampp\htdocs\car-express\views\chat.php on line 184
+[22-Feb-2025 06:10:51 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[22-Feb-2025 06:10:51 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[22-Feb-2025 06:10:57 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[22-Feb-2025 06:10:57 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[22-Feb-2025 06:10:57 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\views\chat.php on line 2
+[22-Feb-2025 06:10:57 Europe/Berlin] PHP Warning:  include(db_connection.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\car-express\views\chat.php on line 3
+[22-Feb-2025 06:10:57 Europe/Berlin] PHP Warning:  include(): Failed opening 'db_connection.php' for inclusion (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\car-express\views\chat.php on line 3
+[22-Feb-2025 06:10:57 Europe/Berlin] PHP Warning:  Undefined variable $receiver_id in C:\xampp\htdocs\car-express\views\chat.php on line 184
+[22-Feb-2025 06:10:57 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[22-Feb-2025 06:10:57 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[22-Feb-2025 06:11:05 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[22-Feb-2025 06:11:05 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[22-Feb-2025 06:11:05 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\views\chat.php on line 2
+[22-Feb-2025 06:11:05 Europe/Berlin] PHP Warning:  include(db_connection.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\car-express\views\chat.php on line 3
+[22-Feb-2025 06:11:05 Europe/Berlin] PHP Warning:  include(): Failed opening 'db_connection.php' for inclusion (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\car-express\views\chat.php on line 3
+[22-Feb-2025 06:11:06 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`car-express`.`chat_messages`, CONSTRAINT `chat_messages_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`phone_number`) ON DELETE CASCADE) in C:\xampp\htdocs\car-express\views\chat.php:31
+Stack trace:
+#0 C:\xampp\htdocs\car-express\views\chat.php(31): mysqli_stmt->execute()
+#1 C:\xampp\htdocs\car-express\routes\web.php(25): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\car-express\public\index.php(19): require_once('C:\\xampp\\htdocs...')
+#3 {main}
+  thrown in C:\xampp\htdocs\car-express\views\chat.php on line 31
+[22-Feb-2025 06:11:56 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[22-Feb-2025 06:11:56 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[22-Feb-2025 06:11:56 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\views\chat.php on line 2
+[22-Feb-2025 06:11:56 Europe/Berlin] PHP Warning:  include(db_connection.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\car-express\views\chat.php on line 3
+[22-Feb-2025 06:11:56 Europe/Berlin] PHP Warning:  include(): Failed opening 'db_connection.php' for inclusion (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\car-express\views\chat.php on line 3
+[22-Feb-2025 06:11:56 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[22-Feb-2025 06:11:56 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[22-Feb-2025 06:12:03 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[22-Feb-2025 06:12:03 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3
+[22-Feb-2025 06:12:03 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\views\chat.php on line 2
+[22-Feb-2025 06:12:03 Europe/Berlin] PHP Warning:  include(db_connection.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\car-express\views\chat.php on line 3
+[22-Feb-2025 06:12:03 Europe/Berlin] PHP Warning:  include(): Failed opening 'db_connection.php' for inclusion (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\car-express\views\chat.php on line 3
+[22-Feb-2025 06:12:03 Europe/Berlin] PHP Warning:  Undefined variable $userId in C:\xampp\htdocs\car-express\templates\navbar.php on line 281
+[22-Feb-2025 06:12:03 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\car-express\routes\web.php on line 3

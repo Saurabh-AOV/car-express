@@ -1,27 +1,51 @@
 <?php
-// Fetch product details based on product_id
-$product_id = isset($_GET['product_id']) ? intval($_GET['product_id']) : 38;
+session_start();
+include 'db_connection.php'; // Include database connection
 
-$productQuery = "SELECT product_name, price,product_image image FROM products WHERE product_id = ?";
+// Fetch product details based on product_id and User via id
+$product_id = isset($_GET['product_id']) ? intval($_GET['product_id']) : 1;
+$sender_id = isset($_GET['sender_id']) ? intval($_GET['sender_id']) : 6677889900;
+
+$productQuery = "SELECT product_name,user_id, price, product_image FROM products WHERE product_id = ?";
 $stmt = $conn->prepare($productQuery);
 $stmt->bind_param("i", $product_id);
 $stmt->execute();
 $productResult = $stmt->get_result();
 $product = $productResult->fetch_assoc();
-echo $product['product_image'];
-// Check if product_image exists and is not empty
+
+$firstImage = '../assets/images/profile/no-profile.jpg';
 if (!empty($product['product_image'])) {
-    // Explode the string and get the first image
     $images = explode(',', $product['product_image']);
-    if (count($images) == 0) {
-        $firstImage = $product['product_image'];
-    }
-    $firstImage = trim($images[0]); // Ensure no whitespace issues
-} else {
-    // Fallback to a default image if no image is available
-    $firstImage = '../assets/images/profile/no-profile.jpg';
+    $firstImage = trim($images[0]);
 }
+
+// Handle message submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['message'])) {
+    $receiver_id =  $product['user_id']; // Default receiver ID
+    $message = trim($_POST['message']);
+
+    if (!empty($message)) {
+        $insertQuery = "INSERT INTO chat_messages (sender_id, receiver_id, product_id, message) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($insertQuery);
+        $stmt->bind_param("isis", $sender_id, $receiver_id, $product_id, $message);
+        $stmt->execute();
+    }
+}
+
+// Fetch messages
+$messages = [];
+$chatQuery = "SELECT * FROM chat_messages WHERE product_id = ? AND sender_id = ? ORDER BY created_at ASC";
+$stmt = $conn->prepare($chatQuery);
+$stmt->bind_param("ii", $product_id, $sender_id);
+$stmt->execute();
+$result = $stmt->get_result();
+while ($row = $result->fetch_assoc()) {
+    $messages[] = $row;
+}
+
 ?>
+
+
 
 <style>
     .chat-container {
@@ -72,7 +96,8 @@ if (!empty($product['product_image'])) {
     .chat-messages {
         flex: 1;
         padding: 15px;
-        overflow-y: auto;
+        overflow-y: scroll;
+        height: 60vh;
         background: #fff;
     }
 
@@ -186,17 +211,6 @@ if (!empty($product['product_image'])) {
         });
     }
 </script>
-
-
-
-
-
-
-
-
-
-
-
 
 
 

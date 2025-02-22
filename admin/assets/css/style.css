@@ -1,0 +1,13 @@
+.main-container {
+    margin-left: 200px;
+    margin-top: 80px;
+    height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+
+
+@media (max-width: 770px) {
+    .main-container {
+        margin-left: 0;
+    }
+}

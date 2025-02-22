@@ -8,14 +8,14 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 $product_id = $_GET['id'];
 
 // Check if car exists
-$query = "SELECT product_image FROM cars WHERE product_id = ?";
+$query = "SELECT product_image FROM products WHERE product_id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $product_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows == 0) {
-    die("Car not found!");
+    die("Listing not found!");
 }
 
 $car = $result->fetch_assoc();
@@ -26,12 +26,12 @@ if (!empty($car['product_image'])) {
 }
 
 // Delete car from database
-$deleteQuery = "DELETE FROM cars WHERE product_id = ?";
+$deleteQuery = "DELETE FROM products WHERE product_id = ?";
 $stmt = $conn->prepare($deleteQuery);
 $stmt->bind_param("i", $product_id);
 
 if ($stmt->execute()) {
-    header("Location: list_cars.php?deleted=success");
+    header("Location: list.php?deleted=success");
     exit();
 } else {
     echo "Error deleting car!";

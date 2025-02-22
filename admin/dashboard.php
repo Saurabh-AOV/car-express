@@ -1,15 +1,15 @@
 <?php
 session_start();
 if (!isset($_SESSION['admin_logged_in'])) {
-    header("Location: authentication/login.php");
+    header("Location: ./authentication/login.php");
     exit();
 }
 
-include 'includes/header.php';
-include 'includes/sidebar.php';
+include './includes/header.php';
+include './includes/sidebar.php';
 ?>
 
-<div class="my-3">
+<div class="main-container">
     <h2>Admin Dashboard</h2>
     <p>Welcome, <?php echo $_SESSION['admin_name']; ?>!</p>
 
@@ -19,4 +19,4 @@ include 'includes/sidebar.php';
     </div>
 </div>
 
-<?php include 'includes/footer.php'; ?>
+<?php include './includes/footer.php'; ?>
